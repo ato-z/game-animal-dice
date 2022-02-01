@@ -1,0 +1,360 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+html,body{
+    height: 100%;
+}
+.flex-center,
+.flex-both,
+.flex-middle,
+.flex{
+    display: flex;
+    display: -webkit-flex;
+}
+.flex.wrap{
+    flex-wrap: wrap;
+}
+.flex-both{
+    justify-content: space-between;
+}
+.flex-center{
+   justify-content: center;
+}
+.flex-middle{
+    align-items: center;
+}
+.flex1{
+    width: 1px;
+    flex: 1;
+}
+.switch-win{
+    position: relative;
+    overflow: hidden;
+}
+.switch-win > .view{
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    z-index: -1;
+    left: 100%;
+    -webkit-transform: translateX(100%);
+    transform: translateX(100%);
+    -webkit-transition: 0s;
+    transition: 0s;
+}
+.switch-win > .view.on{
+    position: relative;
+    z-index: 1;
+    visibility: visible;
+    opacity: 1;
+    left: 0;
+    -webkit-transform: none;
+    transform: none;
+    -webkit-transition: -webkit-transform .3s, opacity .3s;
+    transition: transform .3s, opacity .3s;
+}
+/* 游戏视图 */
+.bg-col1{
+    background-color: #e2ba54;
+}
+.col1{
+    color: #e2ba54;
+}
+.game{
+    position: relative;
+    max-width: 7.5rem;
+    margin: auto;
+    height: 100%;
+    overflow: hidden;
+}
+.game .target-view{
+    width: 7.5rem;
+    height: 5.2rem;
+    box-sizing: border-box;
+    border: .1rem solid;
+    overflow: hidden;
+}
+.game .target-view.ing .corona{
+    height: 5rem;
+}
+.game .target-view .corona{
+    height: 0;
+    transition: .6s;
+    -webkit-transition: .6s;
+    overflow: hidden;
+}
+.game .target-view .corona .flex-middle{
+    height: 100%;
+}
+.game .target-view .corona canvas{
+    width: 100%;
+    display: block;
+    border-radius: .15rem;
+}
+.game .target-view .corona .item{
+    padding: .1rem;
+}
+.game .target-view .desktop{
+    height: 5rem;
+}
+.game .target-view .desktop .item{
+    position: relative;
+    height: 2.5rem;
+    background-size: 80%;
+    background-repeat: no-repeat;
+    background-position: center;
+    box-sizing: border-box;
+    border: .1rem solid;
+    background-color: #f2f4f7;
+    border-radius: .2rem;
+}
+.game .target-view .desktop .item .double,
+.game .target-view .desktop .item .single{
+    position: absolute;
+    width: .5rem;
+    height: .5rem;
+    text-align: center;
+    font-size: .38rem;
+    font-weight: 800;
+    line-height: .5rem;
+    border: .05rem solid #e2ba54;
+    color: #fff;
+}
+.game .target-view .desktop .item .single{
+    border-radius: 1rem;
+    border: .05rem dashed #e2ba54;
+}
+.game .target-view .desktop .row .item:first-child{
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+.game .target-view .desktop .row .item:last-child{
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.game .target-view .hu{
+    background-image: url(../images/hu.png);
+}
+.game .target-view .hulu{
+    background-image: url(../images/jiuhulu.png);
+}
+.game .target-view .ji{
+    background-image: url(../images/laomuji.png);
+}
+.game .target-view .yu{
+    background-image: url(../images/liyu.png);
+}
+.game .target-view .xia{
+    background-image: url(../images/xia.png);
+}
+.game .target-view .xie{
+    background-image: url(../images/pangxie.png);
+}
+.game .target-view .touch{
+    border-color: rgb(102, 209, 15);
+}
+
+.game .middle{
+    padding: 0 .4rem;
+    height: 1.2rem;
+    font-size: .28rem;
+    color: #999;
+}
+.game .middle .item{
+    margin-right: .48rem;
+    height: 1.2rem;
+    line-height: 1.2rem;
+}
+.game .middle .item.on{
+    position: relative;
+    color: #333;
+    font-weight: 800;
+    font-size: .32rem;
+}
+.game .middle .item.on::after{
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: .5rem;
+    bottom: 0;
+    height: .1rem;
+    background-color: #e2ba54;
+}
+
+.game .bottom{
+    position: absolute;
+    top: 6.4rem;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    overflow: hidden;
+    background-color: #fff;
+}
+.game .bottom > .view{
+    height: 100%;
+    overflow-y: scroll;
+}
+.game .chat-list{
+    padding: 0 .4rem;
+}
+.game .chat-list .item{
+    font-size: .28em;
+    border-bottom: 1px solid #eee;
+    color: #333;
+}
+.game .chat-list .item:last-child{
+    border: none;
+}
+.game .chat-list .chat-item{
+    padding-top: .28rem;
+}
+.game .chat-list .name{
+    font-size: 1.28em;
+    color: #333
+}
+.game .chat-list .time{
+    color: #999;
+}
+.game .chat-list .say{
+    padding: .28rem 0;
+    color: #666;
+}
+.game .chat-list .tip{
+    padding: .28rem 0;
+    font-size: 1.2em;
+}
+.game .chat-list .tip2{
+    padding: .2rem 0;
+    font-size: 1em;
+    color: #666;
+    text-align: center;
+}
+.game .chat-list .lines{
+    margin: .28rem;
+    border: 1px solid #333;
+    border-radius: .2rem;
+    padding: .28rem;
+    color: #333;
+}
+.game .chat-list .lines .line + .line{
+    border-top: 1px solid ;
+    padding-top: .2rem;
+    margin-top: .2rem;
+}
+.game .chat-form{
+    height: 1.1rem;
+}
+.game .chat-form aside{
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: .12rem .32rem;
+    background-color: #fff;
+    border-top: 1px solid #ddd;
+}
+.game .chat-form .input input{
+    display: block;
+    height: .86rem;
+    width: 100%;
+    font-size: .32rem;
+    outline: none;
+    border: none;
+}
+.game .chat-form .submit-btn{
+    margin-left: .28rem;
+    width: 1.8rem;
+    height: .86rem;
+    border: none;
+    font-size: .32rem;
+    border-radius: .15rem;
+}
+.game .setting{
+    font-size: .32em;
+    margin: .28rem;
+    padding: 0 .32rem;
+    border: 1px solid #ddd;
+    border-radius: .12rem;
+    color: #333;
+}
+.game .setting .card > * + *{
+    border-top: 1px solid #ddd;
+}
+.game .setting .title{
+    color: #666;
+    width: 5em;
+}
+.game .setting .radio-view{
+    height: 1.12rem;
+}
+.game .setting .radio-view label{
+    margin-right: .24rem;
+}
+.game .setting .radio-view label input{
+    margin-right: .12rem;
+    width: .35rem;
+    height: .35rem;
+}
+.game .setting .input-view input{
+    font-size: 1em;
+    height: 1.12rem;
+    width: 100%;
+    border: none;
+    outline: none;
+}
+.game .member{
+    padding: 0 .4rem;
+}
+.game .member .item{
+    height: 1em;
+    border-bottom: 1px solid #ddd;
+}
+.game .member .item.out{
+    opacity: .6;
+}
+.game .member .name{
+    font-size: .32rem;
+}
+.game .member .val{
+    font-size: .28rem;
+    color: #666;
+}
+.game .play{
+    margin: auto;
+    font-size: .52rem;
+    width: 3rem;
+    height: 3rem;
+    border: none;
+    border-radius: 3rem;    
+    font-weight: 800;
+    box-shadow: .1rem 0 1rem #e2ba54;
+}
+.game .out-btn{
+    width: 100%;
+    height: .8rem;
+    margin: .3rem 0;
+    border: none;
+}
+.game .reset-btn{
+    width: 100%;
+    height: .8rem;
+    background-color: red;
+    color: #fff;
+    margin: .3rem 0;
+    border: none;
+}
+.popup-msg{
+    position: fixed;
+    z-index: 9999;
+    left: 50%;
+    top: 40%;
+    padding: 0.2rem 0.4rem;
+    font-size: 0.28rem;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, .7);
+    color: #fff;
+    border-radius: 0.08rem;
+}

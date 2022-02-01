@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh" style="font-size: 50px;">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <script>
+        ;(function (window, document) {
+            document.onreadystatechange = function (e) {
+                if (document.body) {
+                    document.onreadystatechange = null
+                    resize()
+                }
+            }
+            window.onresize = resize
+            function resize () {
+                var html = document.documentElement
+                var body = document.querySelector('body')
+                var rect = html.getBoundingClientRect()
+                var className = body.className
+                var deviceWidth = rect.width
+                var targetWidth = 750
+                var fontSize = Math.min(deviceWidth / targetWidth * 100, 100)
+                html.style.fontSize = fontSize  + 'px'
+            }
+        })(window, document)
+    </script>
+    <link href="./css/game-v1.css" rel="stylesheet" />
+    <style>
+        .switch-win,
+        .switch-win > .view{
+            height: 100%;
+        }
+        .iframe{
+            border: none;
+            width: 100%;
+            height: 100%;
+        }
+        .btn{
+            display: block;
+            width: 100%;
+            height: .96rem;
+            border: 0;
+            font-size: .32rem;
+            border-radius: .12rem;
+        }
+        .game .setting{
+            border: none;
+            margin: 0;
+        }
+        .game .setting .card{
+            margin: .6rem 0 .4rem;
+            padding: 0 .32rem;
+            border: 1px solid #ddd;
+            border-radius: .12rem;
+        }
+    </style>
+</head>
+<body>
+    <main class="game">
+        <article class="switch-win">
+            <section class="view on">
+                <iframe class="iframe" id="list-iframe"></iframe>
+            </section>
+            <section class="view">
+                <!-- 创建房间 -->
+                <form class="setting" id="create-room">
+                    <div class="card">
+                        <label class="flex-middle">
+                            <span class="title">房间名</span>
+                            <div class="flex1 input-view">
+                                <input placeholder="请输入房间昵称" required id="room-title" />
+                            </div>
+                        </label>
+                        <label class="flex-middle">
+                            <span class="title">密码</span>
+                            <div class="flex1 input-view">
+                                <input placeholder="请输入密码" id="room-passKey" />
+                            </div>
+                        </label>
+                    </div>
+                    <button class="btn bg-col1">创建房间</button>
+                </form>
+            </section>
+            <section class="view">
+                <!-- 加入房间 -->
+                <form class="setting" id="join-room">
+                    <div class="card">
+                        <label class="flex-middle">
+                            <span class="title">房间ID</span>
+                            <div class="flex1 input-view">
+                                <input placeholder="暂无法无法加入" readonly id="room-title2" />
+                            </div>
+                        </label>
+                        <label class="flex-middle">
+                            <span class="title">密码</span>
+                            <div class="flex1 input-view">
+                                <input placeholder="请输入房间密码" required id="room-passKey2" />
+                            </div>
+                        </label>
+                    </div>
+                    <button class="btn bg-col1">立即加入</button>
+                </form>
+            </section>
+            <section class="view">
+                <iframe class="iframe" id="game-iframe"></iframe>
+            </section>
+        </article>
+    </main>
+<script>
+    ;(function () { // 弹窗显示
+        var msgElement = document.createElement('div')
+        msgElement.className = 'popup-msg'
+        window.msg = function(msg) {
+            msgElement.innerHTML = msg
+            document.querySelector('body').appendChild(msgElement)
+            clearTimeout(this.clearTime)
+            this.clearTime = setTimeout(function() {
+                document.querySelector('body').removeChild(msgElement)
+            }, 1500)
+        }
+    } ())
+</script>
+<script>
+/** 用户key */
+var userKey = window.localStorage.getItem('userKey')
+if (!userKey) {
+    userKey = new Date().getTime().toString(16) + Math.random().toString(16)
+    window.localStorage.setItem('userKey', userKey)
+}
+/** 长链接配置 */
+var masterWsURI = 'ws://localhost:881'
+var firstResolve, firstReject;
+var masterWsConnect = new Promise(function (a, b) {
+    firstResolve = a
+    firstReject = b
+})
+;(function handleConnect () { // 房间信息， 发言
+    var ws = new WebSocket(masterWsURI);
+    ws.onopen = function (e) {
+        if (firstResolve) { firstResolve(ws); firstResolve = null }
+        else { masterWsConnect = Promise.resolve(wx) }
+        ws.onmessage = function(e) {
+            try {
+                data = JSON.parse(e.data)
+                if (handleFragment[data.type]) { handleFragment[data.type](data) }
+            } catch(err) {
+                console.error(err)
+                console.log(data)
+            }
+        }
+    }
+    ws.onerror = function() {
+        setTimeout(handleConnect, 3000) // 3秒后重连
+    }
+} ())
+</script>
+<script src="./js/game-index.js"></script>
+<script src="./js/master.js"></script> 
+<script>
+masterWsConnect.then(function(ws) {
+    ws.send(codeSendData(null, 'room/list'))
+    ws.send(codeSendData(null, 'user/detail'))
+})
+</script>
+</body>
+</html>

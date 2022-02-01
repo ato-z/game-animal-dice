@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <script>
+        ;(function (window, document) {
+            document.onreadystatechange = function (e) {
+                if (document.body) {
+                    document.onreadystatechange = null
+                    resize()
+                }
+            }
+            window.onresize = resize
+            function resize () {
+                var html = document.documentElement
+                var body = document.querySelector('body')
+                var rect = html.getBoundingClientRect()
+                var className = body.className
+                var deviceWidth = rect.width
+                var targetWidth = 750
+                var fontSize = Math.min(deviceWidth / targetWidth * 100, 100)
+                html.style.fontSize = fontSize  + 'px'
+            }
+        })(window, document)
+    </script>
+    <link href="./css/game-v1.css" rel="stylesheet" />
+    <style>
+        .title{
+            font-size: .4rem;
+            line-height: 1.2rem;
+            padding: 0 .4rem;
+            border-bottom: 1px solid #ddd;
+        }
+        .member .iem{
+            background-color: #fff;
+        }
+        .empty-view{
+            padding: 1rem 0;
+            text-align: center;
+            color: #666;
+        }
+        .empty-view strong{
+            font-size: .4rem;
+        }
+        .empty-view p{
+            font-size: .3rem;
+        }
+        .for-bottom{
+            height: 1.2rem;
+        }
+        .for-bottom .view{
+            position: fixed;
+            margin: auto;
+            max-width: 750px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            padding: .12rem .32rem;
+            background-color: #fff;
+        }
+        .for-bottom .view .btn{
+            display: block;
+            width: 100%;
+            height: .96rem;
+            border: 0;
+            font-size: .32rem;
+            border-radius: .12rem;
+        }
+    </style>
+</head>
+<body style="background-color: #f2f4f7;">
+    <main class="game">
+        <h3 class="title">房间列表</h3>
+        <article class="member"></article>
+        <aside class="for-bottom" onclick="top.siwtchView(1)">
+            <div class="view">
+                <button class="btn bg-col1">创建房间</button>
+            </div>
+        </aside>
+    </main>
+<script>
+    var memberElement = document.querySelector('.member')
+    var emptyViewHTML = [
+        ' <section class="empty-view">',
+            '<strong>暂无记录</strong>',
+            ' <p>点击新建创建吧～</p>',
+        '</section>'
+    ].join('')
+    window.joinRoom = function(roomID) {
+        if (top !== window && top.joinRoom) {
+            top.joinRoom(roomID)
+        } 
+    }
+    window.upListView = function(res) {
+        var data = res.data
+        if (data.length === 0) {
+            return memberElement.innerHTML = emptyViewHTML
+        }
+        var HTML = data.map(function(room) {
+            return [
+                '<section class="item flex-middle" onclick="joinRoom(\''+room.id+'\')">',
+                    '<strong class="name flex1">'+room.title+'</strong>',
+                    '<span class="val">'+room.member+'人</span>',
+                '</section>'
+            ].join('')
+        }).join('')
+        memberElement.innerHTML = HTML
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,1 @@
+const masterWs =  require('./src/masterWs')

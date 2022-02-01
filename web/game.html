@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <script>
+        ;(function (window, document) {
+            document.onreadystatechange = function (e) {
+                if (document.body) {
+                    document.onreadystatechange = null
+                    resize()
+                }
+            }
+            window.onresize = resize
+            function resize () {
+                var html = document.documentElement
+                var body = document.querySelector('body')
+                var rect = html.getBoundingClientRect()
+                var className = body.className
+                var deviceWidth = rect.width
+                var targetWidth = 750
+                var fontSize = Math.min(deviceWidth / targetWidth * 100, 100)
+                html.style.fontSize = fontSize  + 'px'
+            }
+        })(window, document)
+    </script>
+    <link href="./css/game-v1.css" rel="stylesheet" />
+</head>
+<body style="background-color: #f2f4f7; font-size: 50px;">
+    <main class="game">
+        <article class="target-view col1">
+            <section class="corona bg-col1">
+                <section class="flex-middle"></section>
+            </section>
+            <section class="desktop">
+                <section class="row flex col1">
+                    <section class="item flex1 hu"></section>
+                    <section class="item flex1 hulu"></section>
+                    <section class="item flex1 ji"></section>
+                </section>
+                <section class="row flex">
+                    <section class="item flex1 xia"></section>
+                    <section class="item flex1 yu"></section>
+                    <section class="item flex1 xie"></section>
+                </section>
+            </section>
+        </article>
+        <article class="middle flex-middle">
+            <section class="item" id="room-title">聊天室</section>
+            <section class="item">成员</section>
+            <section class="item on">配置</section>
+            <section class="item" style="display: none" id="master-btn">操作</section>
+        </article>
+        <article class="bottom switch-win">
+            <section class="view">
+                <div class="chat-list"></div>
+                <form class="flex chat-form">
+                    <aside class="flex-middle">
+                        <label class="input flex1">
+                            <input placeholder="发表伟论..." />
+                        </label>
+                        <button class="submit-btn bg-col1">发送</button>
+                    </aside>
+                </form>
+            </section>
+            <section class="view">
+                <ul class="member" id="member-view"></ul>
+            </section>
+            <section class="view on">
+                <form class="setting">
+                    <div class="card">
+                        <label class="flex-middle">
+                            <span class="title">我的昵称</span>
+                            <div class="flex1 input-view">
+                                <input id="my-name" />
+                            </div>
+                        </label>
+                        <div class="flex-middle">
+                            <span class="title">单次下注</span>
+                            <div class="flex1 radio-view flex-middle">
+                                <label class="flex-middle">
+                                    <input type="radio" name="value" value="1" checked />
+                                    <span>01</span>
+                                </label>
+                                <label class="flex-middle">
+                                    <input type="radio" name="value" value="5" />
+                                    <span>05</span>
+                                </label>
+                                <label class="flex-middle">
+                                    <input type="radio" name="value" value="10" />
+                                    <span>10</span>
+                                </label>
+                            </div>
+                        </div>
+                        <label class="flex-middle">
+                            <span class="title">本局积分</span>
+                            <div class="flex1 input-view">
+                                <input readonly placeholder="暂无积分" id="room-value" />
+                            </div>
+                        </label>
+                        <label class="flex-middle">
+                            <span class="title">文字大小</span>
+                            <div class="flex1 input-view">
+                                <input type="range" value="50" min="40" max="90" id="up-font-btn" />
+                            </div>
+                        </label>
+                        <label class="flex-middle">
+                            <button type="button" class="out-btn">退出房间</button>
+                            <button type="button" class="reset-btn" style="display: none;">重置房间</button>
+                        </label>
+                    </div>
+                </form>
+            </section>
+            <section class="view flex-middle">
+                <button class="play bg-col1">开始</button>
+            </section>
+        </article>
+    </main>
+    <script src="./js/game-tool.js"></script>
+    <script src="./js/game.js"></script>
+</body>
+</html>
